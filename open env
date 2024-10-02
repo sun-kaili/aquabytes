@@ -1,0 +1,5 @@
+source aquarium/bin/activate
+
+ raspberryautomation_env\Scripts\activate.bat
+
+pip3 install adafruit-circuitpython-dht

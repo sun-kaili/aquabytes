@@ -1,0 +1,7 @@
+relay 0 time off 10:00 time on 15:00
+relay 0 time off 01:00 time on 07:00
+relay 1 time off 09:00 time on 23:26 
+relay 2 time off 20:00 time on 17:00 
+relay 3 time off 10:00 time on 13:00 
+relay 3 time off 17:00 time on 19:00 
+relay 3 time off 23:00 time on 02:00 
