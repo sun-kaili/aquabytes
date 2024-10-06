@@ -1,8 +1,12 @@
 import board
 import adafruit_dht
+#install this two
+#pip3 install adafruit-circuitpython-dht
+#sudo apt-get install libgpiod2
 
-dhtDevice = adafruit_dht.DHT11(board.D5)
-
+dhtDevice = adafruit_dht.DHT11(board.D24)
+def get_all_data_test():
+    return("temp call ok")
 
 # Function to get humidity and temperature
 def get_all_data():

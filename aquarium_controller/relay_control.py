@@ -60,6 +60,25 @@ def parse_relay_file():
 
     return relay_states
 
+def parse_feeder():
+    try:
+        # Open and read the text file
+        with open(relay_state_file, 'r') as file:
+            lines = file.readlines()
+
+        # Loop through each line and extract relay number, state, and timestamp
+        for line in lines:
+            # Use regular expression to extract the relay number, state, and timestamp
+            match = re.match(r"Feeder on", line)
+            if match:
+                return True
+                    
+    except FileNotFoundError:
+        print(f"Error: {relay_state_file} not found.")
+
+    return False
+
+
 def remove_log_state(relay_id):
     with open(relay_state_file, "r") as fp:
         lines = fp.readlines()
@@ -68,9 +87,29 @@ def remove_log_state(relay_id):
         for line in lines:
             if line.strip("\n") != f"Relay {relay_id} on":
                 fp.write(line)
-
+                
 def log_state(relay_id, state):
      # Open the log file and append the relay state and time
     with open(relay_state_file, "a") as f:
         f.write(f"Relay {relay_id} {state}\n")
     return f"Relay {relay_id} logged as {state}"
+    
+    
+def feeder_off():
+    with open(relay_state_file, "r") as fp:
+        lines = fp.readlines()
+
+    with open(relay_state_file, "w") as fp:
+        for line in lines:
+            if line.strip("\n") != f"Feeder on":
+                fp.write(line)
+                
+                
+def feeder_on():
+     # Open the log file and append the relay state and time
+    with open(relay_state_file, "a") as f:
+        f.write(f"Feeder on\n")
+    return f"Feeder logged as on"
+
+
+    

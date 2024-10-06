@@ -1,17 +1,2 @@
-
-Relay 5 on
-Relay 5 on
-Relay 5 on
-Relay 5 on
-Relay 6 on
-Relay 6 on
-Relay 6 on
-Relay 6 on
-Relay 6 on
-Relay 6 on
-Relay 6 on
-Relay 6 on
-Relay 6 on
-Relay 6 on
-Relay 0 on
-Relay 3 on
+Relay 7 on
+Relay 4 on

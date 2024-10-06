@@ -1,13 +1,14 @@
 import RPi.GPIO as GPIO
 import time
 import os
+from aquarium_controller import servo_control,relay_control
 
 
 # Setup GPIO mode
 GPIO.setmode(GPIO.BOARD)
 
 # Define relay pins corresponding to relays 0 to 3
-relay_pins = [11, 15, 13, 16]
+relay_pins = [12, 10, 13, 11, 8, 7, 5, 3]
 
 # Setup GPIO pins as output and initially set them to OFF
 for pin in relay_pins:
@@ -17,6 +18,7 @@ for pin in relay_pins:
 # Dictionary to keep track of the current state of each relay (True for ON, False for OFF)
 relay_state = {i: False for i in range(len(relay_pins))}
 
+
 # Function to read and process the relay file
 def read_relay_file(file_path):
     relays_on = []
@@ -25,7 +27,7 @@ def read_relay_file(file_path):
             for line in file:
                 process_relay_command(line.strip(), relays_on)
     except FileNotFoundError:
-        print("Relay status file not found.")
+        print("Relay and servo status file not found.")
         return
 
     # Turn OFF any relays not listed in the file but are currently ON
@@ -39,7 +41,7 @@ def read_relay_file(file_path):
 def process_relay_command(command, relays_on):
     parts = command.split()
 
-    if len(parts) == 3 and parts[0] == 'Relay':
+    if len(parts) >= 3 and parts[0] == 'Relay':
         try:
             relay_index = int(parts[1])  # Get the relay number (0, 1, 2, 3)
             state = parts[2].lower()     # Get the state (on/off)
@@ -57,13 +59,26 @@ def process_relay_command(command, relays_on):
                     relay_state[relay_index] = False  # Update relay state
                     print(f"Relay {relay_index} (GPIO {pin}) is OFF")
         except ValueError:
-            print("Invalid command format")
+            print("error relay Invalid command format")
+            
+    elif len(parts) >= 2 and parts[0] == 'Feeder' and parts[1] =='on':
+        try:
+            servo_control.turn_on_servo(90,0,'on',3)
+            print(f"Servo is ON")
+            relay_control.feeder_off()
+            print(f"Servo is OFF")
+            
+            
+        
+            
+        except ValueError:
+            print(ValueError)    
     else:
         print("Invalid command format")
 
 # Monitor for file changes
-def monitor_relay_file(file_path, check_interval=0):
-    last_modified_time = 0
+def monitor_relay_file(file_path, check_interval=1):
+    last_modified_time = 5
 
     while True:
         # Get the last modified time of the file
